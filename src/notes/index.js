@@ -23,24 +23,26 @@ morgan.token('req-body', function getRequestBody (req) {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req-body'))
 
 app.get('/api/notes', (request, response, next) => {
-  Note.find({}).then(notes => {
-    console.log('found', notes.length, 'notes')
-    response.json(notes)
-  })
-  .catch(error => next(error))
+  Note.find({})
+    .then(notes => {
+      console.log('found', notes.length, 'notes')
+      response.json(notes)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/notes/:id', (request, response, next) => {
-  Note.findById(request.params.id).then(note => {
-    if (note) {
-      console.log('found', note)
-      response.json(note)  
-    } else {
-      console.log('not found')
-      response.status(404).end() 
-    }
-  })
-  .catch(error => next(error))
+  Note.findById(request.params.id)
+    .then(note => {
+      if (note) {
+        console.log('found', note)
+        response.json(note)
+      } else {
+        console.log('not found')
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/notes', (request, response, next) => {
@@ -62,13 +64,14 @@ app.post('/api/notes', (request, response, next) => {
     content: reqData.content,
     important: reqData.important || false,
   })
- 
+
   // add new note to database
-  note.save().then(savedNote => {
-    console.log('note saved to database')
-    response.json(savedNote)
-  })
-  .catch(error => next(error))
+  note.save()
+    .then(savedNote => {
+      console.log('note saved to database')
+      response.json(savedNote)
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -107,10 +110,10 @@ app.use((error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
-    return response.status(400).json({ 
+    return response.status(400).json({
       error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ 
+    return response.status(400).json({
       error: error.message })
   }
 

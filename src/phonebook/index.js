@@ -23,24 +23,26 @@ morgan.token('req-body', function getRequestBody (req) {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :req-body'))
 
 app.get('/api/persons', (request, response, next) => {
-  Person.find({}).then(persons => {
-    console.log('found', persons.length, 'persons')
-    response.json(persons)
-  })
-  .catch(error => next(error))
+  Person.find({})
+    .then(persons => {
+      console.log('found', persons.length, 'persons')
+      response.json(persons)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-  Person.findById(request.params.id).then(person => {
-    if (person) {
-      console.log('found', person)
-      response.json(person)  
-    } else {
-      console.log('not found')
-      response.status(404).end() 
-    }
-  })
-  .catch(error => next(error))
+  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        console.log('found', person)
+        response.json(person)
+      } else {
+        console.log('not found')
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -59,18 +61,18 @@ app.post('/api/persons', (request, response, next) => {
   }
 
   // make sure name is unique
-  Person.find({name: person.name})
+  Person.find({ name: person.name })
     .then(result => {
       console.log(result)
-      if (result && result.length == 1) {
+      if (result && result.length === 1) {
         console.log('name exists already. phone number will be updated on the existing record')
         // update person in the backend
         Person.findByIdAndUpdate(result[0].id, person, { new: true, runValidators: true, context: 'query' })
-        .then(updatedPerson => {
-          console.log('person updated in database')
-          response.json(updatedPerson)
-        })
-        .catch(error => next(error))
+          .then(updatedPerson => {
+            console.log('person updated in database')
+            response.json(updatedPerson)
+          })
+          .catch(error => next(error))
       } else {
         // add new person to database
         new Person(person).save()
@@ -120,11 +122,11 @@ app.use((request, response) => {
 app.use((error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'CastError') {
-    return response.status(400).send({ 
+    return response.status(400).send({
       error: 'malformatted id'
     })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ 
+    return response.status(400).json({
       error: error.message })
   }
   next(error)
