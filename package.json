@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:notes": "node ./notes/index.js",
+    "start:phonebook": "node ./phonebook/index.js",
+    "start": "node ./phonebook/index.js",
+    "dev:notes": "nodemon ./src/notes/index.js",
+    "dev:phonebook": "nodemon ./src/phonebook/index.js",
+    "dev": "nodemon ./src/phonebook/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seetha Mangamuri",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

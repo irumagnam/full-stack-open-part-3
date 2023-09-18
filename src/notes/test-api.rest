@@ -1,0 +1,30 @@
+GET http://localhost:3001/
+
+###
+GET http://localhost:3001/api/notes
+
+###
+GET http://localhost:3001/api/notes/65073519764fa4ae590a6e85
+
+###
+POST http://localhost:3001/api/notes
+content-type: application/json
+
+{
+  "content": "There are too many programming languagess",
+  "important": false
+}
+
+###
+PUT http://localhost:3001/api/notes/65074f5d1495f2fc87e8e426
+content-type: application/json
+
+{
+    "id": 1,
+    "content": "CSS",
+    "important": false
+}
+
+###
+DELETE http://localhost:3001/api/notes/6507540ad5b430e31857919f
+

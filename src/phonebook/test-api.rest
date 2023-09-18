@@ -1,0 +1,30 @@
+GET http://localhost:3001/
+
+###
+GET http://localhost:3001/api/persons
+
+###
+GET http://localhost:3001/api/persons/6507507b4e75cd679c483037
+
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Nic",
+    "number": "123-000111222"
+}
+
+###
+PUT http://localhost:3001/api/persons/6507379f2d267fe7c503837c
+content-type: application/json
+
+{
+    "id": 1,
+    "name": "Nic",
+    "number": "11-11111111"
+}
+
+###
+DELETE http://localhost:3001/api/persons/6507507b4e75cd679c483037
+
